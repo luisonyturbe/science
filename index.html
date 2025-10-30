@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Study Guide</title>
+    <!-- 
+        CSS (Styles) are embedded in this file.
+        No separate .css file is needed.
+    -->
+    <style>
+        /* General Styles */
+        :root {
+            --color-primary: #00796b; /* Teal */
+            --color-primary-dark: #004d40;
+            --color-accent: #ffc107; /* Amber */
+            --color-background: #f4f7f6;
+            --color-card: #ffffff;
+            --color-text: #333;
+            --color-quiz-green: #28a745;
+            --color-quiz-red: #d9534f;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hide all pages by default */
+        .page {
+            display: none;
+        }
+        /* Show only the active page */
+        .page.active {
+            display: block;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            color: #ffffff;
+            padding: 20px 40px;
+            text-align: center;
+            border-bottom: 4px solid var(--color-accent);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--color-card);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        h1, h2, h3 {
+            color: var(--color-primary-dark);
+            margin-bottom: 0.5em;
+        }
+
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        h3 { color: var(--color-primary); }
+
+        p { margin-bottom: 1em; }
+        ul, ol { margin-bottom: 1em; padding-left: 20px; }
+        li { margin-bottom: 0.5em; }
+
+        /* Formula Box */
+        .formula-box {
+            background-color: #e0f2f1; /* Light teal */
+            border: 1px solid var(--color-primary);
+            border-left: 5px solid var(--color-primary-dark);
+            padding: 15px;
+            margin: 1.5em 0;
+            border-radius: 5px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            text-align: center;
+        }
+
+        /* Definition List */
+        dl {
+            margin-bottom: 1.5em;
+        }
+        dt {
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-top: 10px;
+        }
+        dd {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .content-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .content-section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* --- Navigation & Button Styles --- */
+        .main-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .nav-button {
+            display: block;
+            background-color: var(--color-primary);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: var(--color-primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-link {
+            background-color: #e0f2f1;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .quiz-button {
+            display: inline-block;
+            background-color: var(--color-quiz-green);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .quiz-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1em;
+            background-color: #6c757d; /* Gray */
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        /* --- Quiz Styles --- */
+        .quiz-container {
+            padding: 20px;
+        }
+
+        #question-header {
+            margin-bottom: 20px;
+        }
+
+        #question-text {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        #question-counter {
+            font-size: 0.9em;
+            color: #777;
+            text-align: right;
+        }
+
+        #options-container {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #options-container li {
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        #options-container li:hover {
+            background-color: #e9f1f7;
+        }
+
+        #options-container li.selected {
+            background-color: #d4e6f1;
+            border-color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        #submit-btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Quiz Results */
+        .results-container {
+            padding: 20px;
+        }
+
+        #results-score {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--color-primary-dark);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #incorrect-answers h3 {
+            color: var(--color-quiz-red);
+            border-bottom: 2px solid #f5c6cb;
+            padding-bottom: 5px;
+        }
+
+        #incorrect-answers ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #incorrect-answers li {
+            background-color: #fdf7f7;
+            border: 1px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        #incorrect-answers .question {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        #incorrect-answers .user-answer {
+            color: var(--color-quiz-red);
+        }
+
+        #incorrect-answers .correct-answer {
+            color: var(--color-quiz-green);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 
+        PAGE CONTAINER
+        All "pages" (sections) are here.
+        JavaScript handles showing only the active one.
+    -->
+
+    <!-- ========== MAIN PAGE (index.html) ========== -->
+    <div id="page-main" class="page active">
+        <header>
+            <h1>Science Test Study Guide</h1>
+        </header>
+        
+        <main>
+            <section class="content-section">
+                <h2>Welcome!</h2>
+                <p>This is your study guide for the 1st trimester physics test. I've broken down all the topics from our classes into simple, to-the-point sections. Focus on understanding the definitions and formulas!</p>
+                <p>Select a topic below to start reviewing. Each section has a short quiz at the end to help you check your progress. You've got this!</p>
+            </section>
+            
+            <nav class="main-nav">
+                <h2>Topics</h2>
+                <button onclick="navigateToPage('page-topic1')" class="nav-button">1. What is Physics & Science?</button>
+                <button onclick="navigateToPage('page-topic2')" class="nav-button">2. The Scientific Method</button>
+                <button onclick="navigateToPage('page-topic3')" class="nav-button">3. Units of Measurement (SI)</button>
+                <button onclick="navigateToPage('page-topic4')" class="nav-button">4. Describing Motion: Scalars & Vectors</button>
+                <button onclick="navigateToPage('page-topic5')" class="nav-button">5. Speed & Velocity</button>
+            </nav>
+        </main>
+        
+        <footer>
+            <p>Physics Study Guide - 1st Trimester</p>
+        </footer>
+    </div>
+
+    <!-- ========== PAGE TOPIC 1: What is Physics & Science? ========== -->
+    <div id="page-topic1" class="page">
+        <header>
+            <h1>1. What is Physics & Science?</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <h2>What is Physics?</h2>
+                <p>Physics is the natural science that studies <strong>matter, energy, motion, and force</strong>. Its main goal is to understand the fundamental laws of the universe.</p>
+                <h3>Key Areas of Physics:</h3>
+                <ul>
+                    <li><strong>Mechanics:</strong> The study of motion and forces (what we are studying now!).</li>
+                    <li><strong>Thermodynamics:</strong> The study of heat, energy, and work.</li>
+                    <li><strong>Electromagnetism:</strong> The study of electric and magnetic fields.</li>
+                    <li><strong>Optics:</strong> The study of light.</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>What is Science?</h2>
+                <p>Science is a systematic way of understanding the natural world based on <strong>observation, experimentation, and evidence</strong>.</p>
+                <h3>The 3 Branches of Science:</h3>
+                <dl>
+                    <dt>1. Natural Sciences</dt>
+                    <dd>Study nature and physical phenomena. (e.g., <strong>Physics</strong>, Chemistry, Biology).</dd>
+                    
+                    <dt>2. Formal Sciences</dt>
+                    <dd>Use logic, reasoning, and symbols. They are the "language" of science. (e.g., <strong>Mathematics</strong>, Computer Science).</dd>
+                    
+                    <dt>3. Social Sciences</dt>
+                    <dd>Study human behavior and societies. (e.g., Psychology, Sociology).</dd>
+                </dl>
+            </section>
+
+            <section class="content-section">
+                <h2>Science vs. Pseudoscience</h2>
+                <p>It's important to know the difference!</p>
+                <ul>
+                    <li><strong>Science:</strong> Follows the Scientific Method, requires evidence, is testable, and is open to peer review and change.</li>
+                    <li><strong>Pseudoscience:</strong> Claims to be scientific but <strong>lacks evidence</strong> and does not follow the scientific method. Claims are often vague and cannot be proven false.</li>
+                </ul>
+                <p><strong>Examples of Pseudoscience:</strong> Astrology, Homeopathy, Numerology. These are not supported by scientific evidence.</p>
+            </section>
+
+            <!-- Quiz Link -->
+            <section class="quiz-link">
+                <h2>Test Yourself</h2>
+                <p>Check your understanding of this topic.</p>
+                <button onclick="navigateToPage('page-quiz', 'topic1')" class="quiz-button">Start Quiz (5 Questions)</button>
+            </section>
+            
+            <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+        </main>
+    </div>
+
+    <!-- ========== PAGE TOPIC 2: The Scientific Method ========== -->
+    <div id="page-topic2" class="page">
+        <header>
+            <h1>2. The Scientific Method</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <h2>What is it?</h2>
+                <p>The Scientific Method is the structured process scientists use to investigate questions and solve problems. It ensures that conclusions are based on <strong>evidence</strong>, not just opinions.</p>
+                
+                <h2>The 6 Steps</h2>
+                <p>You need to know these steps in order!</p>
+                <ol>
+                    <li><strong>Observation / Question:</strong> Noticing something or asking a question about the natural world. (e.g., "Why does my plant grow taller near the window?")</li>
+                    <li><strong>Research:</strong> Gathering information about the question.</li>
+                    <li><strong>Hypothesis:</strong> A testable prediction or a possible explanation. It's often written as an "If... then..." statement. (e.g., "<strong>If</strong> I put the plant in sunlight, <strong>then</strong> it will grow taller.")</li>
+                    <li><strong>Experiment:</strong> Designing and carrying out a test to see if the hypothesis is correct.</li>
+                    <li><strong>Analyze Data:</strong> Looking at the results of the experiment (measurements, observations) to see what they mean.</li>
+                    <li><strong>Conclusion:</strong> A summary of what you learned. You state whether your hypothesis was supported or rejected by the evidence.</li>
+                </ol>
+            </section>
+
+            <section class="content-section">
+                <h2>Hypothesis vs. Theory vs. Law</h2>
+                <dl>
+                    <dt>Hypothesis</dt>
+                    <dd>A <strong>testable prediction</strong> for a *single* experiment.</dd>
+                    
+                    <dt>Theory</dt>
+                    <dd>A well-tested <strong>explanation</strong> for *why* something happens, supported by a lot of evidence. (e.g., Theory of Relativity).</dd>
+                    
+                    <dt>Law</dt>
+                    <dd>A <strong>description</strong> of *what* happens in nature, often a mathematical formula. (e.g., Law of Universal Gravitation).</dd>
+                </dl>
+            </section>
+
+            <!-- Quiz Link -->
+            <section class="quiz-link">
+                <h2>Test Yourself</h2>
+                <p>Check your understanding of this topic.</p>
+                <button onclick="navigateToPage('page-quiz', 'topic2')" class="quiz-button">Start Quiz (5 Questions)</button>
+            </section>
+            
+            <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+        </main>
+    </div>
+
+    <!-- ========== PAGE TOPIC 3: Units of Measurement (SI) ========== -->
+    <div id="page-topic3" class="page">
+        <header>
+            <h1>3. Units of Measurement (SI)</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <h2>Physical Quantities</h2>
+                <p>A <strong>physical quantity</strong> is anything that can be measured. (e.g., your height, the time it takes to run, the temperature outside).</p>
+                
+                <h2>International System of Units (SI)</h2>
+                <p>This is the standard system of measurement used by scientists worldwide. It's like a universal language for measurement.</p>
+
+                <h3>The 7 Fundamental Quantities</h3>
+                <p>These are the basic building blocks. All other units are made from these seven.</p>
+                <ul>
+                    <li><strong>Length</strong> - Unit: <strong>meter (m)</strong></li>
+                    <li><strong>Mass</strong> - Unit: <strong>kilogram (kg)</strong></li>
+                    <li><strong>Time</strong> - Unit: <strong>second (s)</strong></li>
+                    <li><strong>Temperature</strong> - Unit: <strong>Kelvin (K)</strong></li>
+                    <li><strong>Electric Current</strong> - Unit: <strong>Ampere (A)</strong></li>
+                    <li>Amount of Substance - Unit: mole (mol)</li>
+                    <li>Luminous Intensity - Unit: candela (cd)</li>
+                </ul>
+                <p><em>(For your test, definitely know the first five!)</em></p>
+            </section>
+
+            <section class="content-section">
+                <h2>Derived Quantities</h2>
+                <p>These are quantities made by <strong>combining</strong> fundamental quantities.</p>
+                <dl>
+                    <dt>Area</dt>
+                    <dd>Formula: Length × Length. Unit: <strong>$m^2$</strong> (square meters)</dd>
+                    
+                    <dt>Volume</dt>
+                    <dd>Formula: Length × Length × Length. Unit: <strong>$m^3$</strong> (cubic meters)</dd>
+
+                    <dt>Speed</dt>
+                    <dd>Formula: Length / Time. Unit: <strong>m/s</strong> (meters per second)</dd>
+
+                    <dt>Force</dt>
+                    <dd>Formula: Mass × Acceleration. Unit: <strong>Newton (N)</strong></dd>
+                </dl>
+            </section>
+
+            <section class="content-section">
+                <h2>SI Conversions</h2>
+                <p>You must be able to convert between common units.</p>
+                <ul>
+                    <li>1 kilometer (km) = 1000 meters (m)</li>
+                    <li>1 meter (m) = 100 centimeters (cm)</li>
+                    <li>1 meter (m) = 1000 millimeters (mm)</li>
+                    <li>1 kilogram (kg) = 1000 grams (g)</li>
+                    <li>1 hour = 60 minutes</li>
+                    <li>1 minute = 60 seconds</li>
+                    <li><strong>1 hour = 3600 seconds</strong> (60 × 60)</li>
+                </ul>
+                <h3>Temperature Conversion (Important!)</h3>
+                <p>The SI unit is Kelvin (K), but we often use Celsius (°C).</p>
+                <div class="formula-box">
+                    T(K) = T(°C) + 273.15
+                </div>
+                <p><strong>Example:</strong> Convert 25°C to Kelvin.</p>
+                <p>T(K) = 25 + 273.15 = 298.15 K</p>
+            </section>
+
+            <!-- Quiz Link -->
+            <section class="quiz-link">
+                <h2>Test Yourself</h2>
+                <p>Check your understanding of this topic.</p>
+                <button onclick="navigateToPage('page-quiz', 'topic3')" class="quiz-button">Start Quiz (5 Questions)</button>
+            </section>
+            
+            <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+        </main>
+    </div>
+
+    <!-- ========== PAGE TOPIC 4: Scalars & Vectors ========== -->
+    <div id="page-topic4" class="page">
+        <header>
+            <h1>4. Describing Motion: Scalars & Vectors</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <h2>Scalar Quantities</h2>
+                <p>A <strong>scalar</strong> is a quantity that has <strong>only magnitude (size or amount)</strong>.</p>
+                <p>It tells you "how much" but NOT "which way."</p>
+                <h3>Examples of Scalars:</h3>
+                <ul>
+                    <li><strong>Distance</strong> (e.g., 10 meters)</li>
+                    <li><strong>Speed</strong> (e.g., 25 m/s)</li>
+                    <li><strong>Mass</strong> (e.g., 5 kg)</li>
+                    <li><strong>Time</strong> (e.g., 15 seconds)</li>
+                    <li><strong>Temperature</strong> (e.g., 20°C)</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Vector Quantities</h2>
+                <p>A <strong>vector</strong> is a quantity that has <strong>both magnitude AND direction</strong>.</p>
+                <p>It tells you "how much" AND "which way."</p>
+                <h3>Examples of Vectors:</h3>
+                <ul>
+                    <li><strong>Displacement</strong> (e.g., 10 meters <strong>East</strong>)</li>
+                    <li><strong>Velocity</strong> (e.g., 25 m/s <strong>North</strong>)</li>
+                    <li><strong>Force</strong> (e.g., 10 Newtons <strong>downward</strong>)</li>
+                    <li><strong>Acceleration</strong> (e.g., 9.8 m/s² <strong>downward</strong>)</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Distance vs. Displacement</h2>
+                <p>This is a key concept that uses scalars and vectors.</p>
+                <ul>
+                    <li><strong>Distance (Scalar):</strong> The <strong>total path</strong> you traveled. (e.g., "My watch says I walked 5,000 steps.")</li>
+                    <li><strong>Displacement (Vector):</strong> The straight-line change in position from your <strong>start point</strong> to your <strong>end point</strong>, including direction.</li>
+                </ul>
+                <h3>Example:</h3>
+                <p>Imagine you walk <strong>3 meters East</strong>, then turn around and walk <strong>3 meters West</strong>.</p>
+                <ul>
+                    <li><strong>Distance:</strong> 3 m + 3 m = <strong>6 meters</strong> (You walked a total of 6 m).</li>
+                    <li><strong>Displacement:</strong> <strong>0 meters</strong> (You ended up exactly where you started!).</li>
+                </ul>
+            </section>
+
+            <!-- Quiz Link -->
+            <section class="quiz-link">
+                <h2>Test Yourself</h2>
+                <p>Check your understanding of this topic.</p>
+                <button onclick="navigateToPage('page-quiz', 'topic4')" class="quiz-button">Start Quiz (5 Questions)</button>
+            </section>
+            
+            <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+        </main>
+    </div>
+
+    <!-- ========== PAGE TOPIC 5: Speed & Velocity ========== -->
+    <div id="page-topic5" class="page">
+        <header>
+            <h1>5. Speed & Velocity</h1>
+        </header>
+        <main>
+            <section class="content-section">
+                <h2>Speed (Scalar)</h2>
+                <p><strong>Speed</strong> is a scalar quantity that measures how fast an object is moving. It's the rate at which an object covers distance.</p>
+                <p><strong>Average Speed</strong> is the total distance traveled divided by the total time taken.</p>
+                
+                <div class="formula-box">
+                    Average Speed = Total Distance / Total Time
+                </div>
+                
+                <ul>
+                    <li>Unit: <strong>meters per second (m/s)</strong></li>
+                    <li>This tells you "how fast" only.</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Velocity (Vector)</h2>
+                <p><strong>Velocity</strong> is a vector quantity that measures the rate of change of displacement. It is <strong>speed with a direction</strong>.</p>
+                <p><strong>Average Velocity</strong> is the total displacement divided by the total time taken.</p>
+
+                <div class="formula-box">
+                    Average Velocity = Total Displacement / Total Time
+                </div>
+
+                <ul>
+                    <li>Unit: <strong>meters per second (m/s)</strong>, plus a direction (e.g., "10 m/s North").</li>
+                    <li>This tells you "how fast" and "which way."</li>
+                </ul>
+            </section>
+
+            <section class="content-section">
+                <h2>Key Example (Speed vs. Velocity)</h2>
+                <p>A runner runs <strong>400 meters</strong> around a circular track in <strong>80 seconds</strong>, ending at their starting point.</p>
+                
+                <p><strong>Find the Average Speed:</strong></p>
+                <p>Average Speed = Total Distance / Total Time</p>
+                <p>Average Speed = 400 m / 80 s = <strong>5 m/s</strong></p>
+
+                <p><strong>Find the Average Velocity:</strong></p>
+                <p>Average Velocity = Total Displacement / Total Time</p>
+                <p>The runner ended where they started, so their displacement is 0 m.</p>
+                <p>Average Velocity = 0 m / 80 s = <strong>0 m/s</strong></p>
+            </section>
+
+            <section class="content-section">
+                <h2>Uniform Linear Motion (ULM)</h2>
+                <p>This is the simplest type of motion.</p>
+                <ul>
+                    <li><strong>Uniform:</strong> Means <strong>constant velocity</strong> (speed and direction do not change).</li>
+                    <li><strong>Linear:</strong> Means motion in a <strong>straight line</strong>.</li>
+                </ul>
+                <p><strong>Example:</strong> A car driving at exactly 50 km/h on a perfectly straight road.</p>
+            </section>
+
+            <!-- Quiz Link -->
+            <section class="quiz-link">
+                <h2>Test Yourself</h2>
+                <p>Check your understanding of this topic.</p>
+                <button onclick="navigateToPage('page-quiz', 'topic5')" class="quiz-button">Start Quiz (5 Questions)</button>
+            </section>
+            
+            <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+        </main>
+    </div>
+
+
+    <!-- ========== QUIZ PAGE (Generic) ========== -->
+    <div id="page-quiz" class="page">
+        <header>
+            <h1 id="quiz-title">Quiz</h1>
+        </header>
+        <main>
+            <div class="quiz-container" id="quiz-container">
+                <div id="question-header">
+                    <h2 id="question-text">Loading question...</h2>
+                    <p id="question-counter"></p>
+                </div>
+                <ul id="options-container">
+                    <!-- Options will be generated by JavaScript -->
+                </ul>
+                <button id="submit-btn" class="quiz-button">Next</button>
+            </div>
+
+            <div class="results-container" id="results-container" style="display: none;">
+                <h2 id="results-title">Results</h2>
+                <p id="results-score">You got 0 out of 0 correct.</p>
+                <div id="incorrect-answers">
+                    <h3>Incorrect answers:</h3>
+                    <!-- Failed questions will be listed here -->
+                </div>
+                <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- 
+        *****************************************************
+        SCRIPT (Page Logic)
+        *****************************************************
+        All the JavaScript is embedded here.
+        It handles page navigation and the quiz logic.
+    -->
+    <script>
+        // --- 1. NAVIGATION LOGIC ---
+        
+        let currentPage = 'page-main';
+        
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show the requested page
+            const newPage = document.getElementById(pageId);
+            if (newPage) {
+                newPage.classList.add('active');
+                currentPage = pageId;
+                window.scrollTo(0, 0); // Scroll to the top of the new page
+            } else {
+                console.error("Page not found:", pageId);
+                document.getElementById('page-main').classList.add('active'); // Go home on error
+            }
+        }
+
+        function navigateToPage(pageId, quizId = null) {
+            if (pageId === 'page-quiz') {
+                // If we're going to a quiz, load that quiz's data
+                loadQuiz(quizId);
+            }
+            // Change the page visually
+            showPage(pageId);
+        }
+
+        // Show the main page on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('page-main');
+        });
+
+
+        // --- 2. QUESTION DATABASE ---
+
+        const allQuestions = {
+            "topic1": {
+                "title": "Quiz: What is Physics & Science?",
+                "questions": [
+                    {
+                        "question": "What is the main goal of physics?",
+                        "options": [
+                            "To study human behavior and society.",
+                            "To understand the fundamental laws of the universe.",
+                            "To create new medicines.",
+                            "To prove that astrology is real."
+                        ],
+                        "answer": "To understand the fundamental laws of the universe."
+                    },
+                    {
+                        "question": "Which of these is a Natural Science?",
+                        "options": [
+                            "Mathematics",
+                            "Sociology",
+                            "Physics",
+                            "Computer Science"
+                        ],
+                        "answer": "Physics"
+                    },
+                    {
+                        "question": "Which of these is an example of a Formal Science?",
+                        "options": [
+                            "Biology",
+                            "Chemistry",
+                            "Psychology",
+                            "Mathematics"
+                        ],
+                        "answer": "Mathematics"
+                    },
+                    {
+                        "question": "Astrology (predicting the future with stars) is considered a pseudoscience because...",
+                        "options": [
+                            "It uses complex star charts.",
+                            "It has been practiced for a long time.",
+                            "It lacks scientific evidence and is not testable.",
+                            "It is studied in universities."
+                        ],
+                        "answer": "It lacks scientific evidence and is not testable."
+                    },
+                    {
+                        "question": "The study of motion, forces, and energy is called:",
+                        "options": [
+                            "Optics",
+                            "Thermodynamics",
+                            "Mechanics",
+                            "Social Science"
+                        ],
+                        "answer": "Mechanics"
+                    }
+                ]
+            },
+            "topic2": {
+                "title": "Quiz: The Scientific Method",
+                "questions": [
+                    {
+                        "question": "What is the first step of the scientific method?",
+                        "options": [
+                            "Hypothesis",
+                            "Experiment",
+                            "Observation / Question",
+                            "Conclusion"
+                        ],
+                        "answer": "Observation / Question"
+                    },
+                    {
+                        "question": "A testable prediction, often written as an 'If... then...' statement, is a(n):",
+                        "options": [
+                            "Theory",
+                            "Law",
+                            "Hypothesis",
+                            "Analysis"
+                        ],
+                        "answer": "Hypothesis"
+                    },
+                    {
+                        "question": "In which step do you carry out a test to see if your prediction is correct?",
+                        "options": [
+                            "Research",
+                            "Experiment",
+                            "Analyze Data",
+                            "Conclusion"
+                        ],
+                        "answer": "Experiment"
+                    },
+                    {
+                        "question": "A well-tested EXPLANATION for *why* something happens, supported by lots of evidence, is a:",
+                        "options": [
+                            "Hypothesis",
+                            "Guess",
+                            "Law",
+                            "Theory"
+                        ],
+                        "answer": "Theory"
+                    },
+                    {
+                        "question": "A DESCRIPTION of *what* happens in nature, often a formula, is a:",
+                        "options": [
+                            "Hypothesis",
+                            "Theory",
+                            "Law",
+                            "Conclusion"
+                        ],
+                        "answer": "Law"
+                    }
+                ]
+            },
+            "topic3": {
+                "title": "Quiz: Units of Measurement (SI)",
+                "questions": [
+                    {
+                        "question": "What is the SI (fundamental) unit for mass?",
+                        "options": [
+                            "Gram (g)",
+                            "Kilogram (kg)",
+                            "Meter (m)",
+                            "Pound (lb)"
+                        ],
+                        "answer": "Kilogram (kg)"
+                    },
+                    {
+                        "question": "What is the SI (fundamental) unit for length?",
+                        "options": [
+                            "Kilometer (km)",
+                            "Centimeter (cm)",
+                            "Meter (m)",
+                            "Second (s)"
+                        ],
+                        "answer": "Meter (m)"
+                    },
+                    {
+                        "question": "Speed (m/s) is an example of what kind of quantity?",
+                        "options": [
+                            "A fundamental quantity",
+                            "A derived quantity",
+                            "A social science quantity",
+                            "A pseudoscience"
+                        ],
+                        "answer": "A derived quantity"
+                    },
+                    {
+                        "question": "How many seconds are in 1 hour?",
+                        "options": [
+                            "60",
+                            "120",
+                            "3600",
+                            "1000"
+                        ],
+                        "answer": "3600"
+                    },
+                    {
+                        "question": "What is 20°C in Kelvin (K)? Use the formula T(K) = T(°C) + 273.15.",
+                        "options": [
+                            "253.15 K",
+                            "20 K",
+                            "293.15 K",
+                            "-253.15 K"
+                        ],
+                        "answer": "293.15 K"
+                    }
+                ]
+            },
+            "topic4": {
+                "title": "Quiz: Scalars & Vectors",
+                "questions": [
+                    {
+                        "question": "A quantity that has ONLY magnitude (size) is called a:",
+                        "options": [
+                            "Vector",
+                            "Scalar",
+                            "Unit",
+                            "Force"
+                        ],
+                        "answer": "Scalar"
+                    },
+                    {
+                        "question": "A quantity that has BOTH magnitude and direction is called a:",
+                        "options": [
+                            "Vector",
+                            "Scalar",
+                            "Mass",
+                            "Speed"
+                        ],
+                        "answer": "Vector"
+                    },
+                    {
+                        "question": "Which of the following is a SCALAR quantity?",
+                        "options": [
+                            "Velocity (10 m/s North)",
+                            "Force (5 N down)",
+                            "Displacement (2 km East)",
+                            "Speed (10 m/s)"
+                        ],
+                        "answer": "Speed (10 m/s)"
+                    },
+                    {
+                        "question": "Which of the following is a VECTOR quantity?",
+                        "options": [
+                            "Distance (50 m)",
+                            "Mass (10 kg)",
+                            "Displacement (50 m South)",
+                            "Time (30 s)"
+                        ],
+                        "answer": "Displacement (50 m South)"
+                    },
+                    {
+                        "question": "You walk 5 meters North and then 2 meters South. What is your total DISTANCE?",
+                        "options": [
+                            "3 meters",
+                            "3 meters North",
+                            "7 meters",
+                            "5 meters"
+                        ],
+                        "answer": "7 meters"
+                    }
+                ]
+            },
+            "topic5": {
+                "title": "Quiz: Speed & Velocity",
+                "questions": [
+                    {
+                        "question": "What is the formula for Average Speed?",
+                        "options": [
+                            "Total Distance / Total Time",
+                            "Total Displacement / Total Time",
+                            "Total Time / Total Distance",
+                            "Distance × Time"
+                        ],
+                        "answer": "Total Distance / Total Time"
+                    },
+                    {
+                        "question": "What is the formula for Average Velocity?",
+                        "options": [
+                            "Total Distance / Total Time",
+                            "Total Displacement / Total Time",
+Two_Player_Hangman_Game.html
+                            "Total Time / Total Displacement",
+                            "Displacement × Time"
+                        ],
+                        "answer": "Total Displacement / Total Time"
+                    },
+                    {
+                        "question": "A car travels 100 meters in 5 seconds. What is its average speed?",
+                        "options": [
+                            "20 m/s",
+                            "500 m/s",
+                            "0.05 m/s",
+                            "25 m/s"
+                        ],
+                        "answer": "20 m/s"
+                    },
+                    {
+                        "question": "You walk 10 m East and 10 m West, returning to your start. The total trip takes 20 seconds. What is your average VELOCITY?",
+                        "options": [
+                            "1 m/s",
+                            "0.5 m/s",
+                            "200 m/s",
+                            "0 m/s"
+                        ],
+                        "answer": "0 m/s"
+                    },
+                    {
+                        "question": "Motion in a straight line at a constant velocity is called:",
+                        "options": [
+                            "Uniform Linear Motion (ULM)",
+                            "Acceleration",
+                            "Pseudoscience",
+                            "A scalar"
+                        ],
+                        "answer": "Uniform Linear Motion (ULM)"
+                    }
+                ]
+            }
+        };
+
+
+        // --- 3. QUIZ LOGIC ---
+
+        // Global variables for the quiz state
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let score = 0;
+        let totalQuestions = 5; // All quizzes will have 5 questions
+        let currentQuizId = '';
+
+        // DOM Elements for the Quiz
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const quizTitle = document.getElementById('quiz-title');
+        const questionText = document.getElementById('question-text');
+        const questionCounter = document.getElementById('question-counter');
+        const optionsContainer = document.getElementById('options-container');
+        const submitBtn = document.getElementById('submit-btn');
+        const resultsScore = document.getElementById('results-score');
+        const incorrectAnswersList = document.getElementById('incorrect-answers');
+
+        // Function to shuffle an array (Fisher-Yates Algorithm)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Function to load the quiz
+        function loadQuiz(quizId) {
+            if (!quizId || !allQuestions[quizId]) {
+                quizTitle.textContent = "Error";
+                questionText.textContent = "Quiz not found. Please go back.";
+                submitBtn.style.display = 'none';
+                return;
+            }
+            
+            currentQuizId = quizId;
+            const quizData = allQuestions[quizId];
+            quizTitle.textContent = quizData.title;
+            
+            // Show quiz and hide results
+            quizContainer.style.display = 'block';
+            resultsContainer.style.display = 'none';
+            submitBtn.style.display = 'block';
+            
+            // Get 5 random questions from the topic's question bank
+            let questionsToLoad = shuffleArray([...quizData.questions]);
+            currentQuestions = questionsToLoad.slice(0, 5);
+            totalQuestions = 5;
+
+            userAnswers = new Array(totalQuestions).fill(null);
+            currentQuestionIndex = 0;
+            score = 0;
+
+            showQuestion();
+        }
+
+        // Function to display the current question
+        function showQuestion() {
+            // Deselect previous options
+            deselectOptions();
+
+            const questionData = currentQuestions[currentQuestionIndex];
+            
+            // Shuffle the options for this question
+            let shuffledOptions = shuffleArray([...questionData.options]);
+            
+            questionText.textContent = questionData.question;
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${totalQuestions}`;
+            optionsContainer.innerHTML = '';
+
+            shuffledOptions.forEach(option => {
+                const li = document.createElement('li');
+                li.textContent = option;
+                li.onclick = () => selectOption(li, option);
+                optionsContainer.appendChild(li);
+            });
+
+            if (currentQuestionIndex === totalQuestions - 1) {
+                submitBtn.textContent = 'Finish Quiz';
+            } else {
+                submitBtn.textContent = 'Next';
+            }
+        }
+
+        // Function to select an option
+        function selectOption(selectedLi, option) {
+            deselectOptions();
+            selectedLi.classList.add('selected');
+            userAnswers[currentQuestionIndex] = option;
+        }
+
+        // Function to remove 'selected' class from all options
+        function deselectOptions() {
+            const options = optionsContainer.getElementsByTagName('li');
+            Array.from(options).forEach(option => {
+                option.classList.remove('selected');
+            });
+        }
+
+        // Event Listener for the Next/Finish button
+        submitBtn.addEventListener('click', () => {
+            const selectedOption = userAnswers[currentQuestionIndex];
+            
+            if (selectedOption === null) {
+                // A simple validation
+                alert('Please select an answer.');
+                return;
+            }
+
+            // Check if the answer is correct
+            if (selectedOption === currentQuestions[currentQuestionIndex].answer) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < totalQuestions) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        // Function to show the final results
+        function showResults() {
+            quizContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultsScore.textContent = `You got ${score} out of ${totalQuestions} correct.`;
+
+            let incorrectHtml = '<ul>';
+            let hasIncorrect = false;
+            currentQuestions.forEach((question, index) => {
+                if (userAnswers[index] !== question.answer) {
+                    hasIncorrect = true;
+                    incorrectHtml += `
+                        <li>
+                            <p class="question">${index + 1}. ${question.question}</p>
+                            <p class="user-answer"><strong>Your answer:</strong> ${userAnswers[index] || "Not answered"}</p>
+                            <p class="correct-answer"><strong>Correct answer:</strong> ${question.answer}</p>
+                        </li>
+                    `;
+                }
+            });
+            incorrectHtml += '</ul>';
+
+            // Clear previous results and add new ones
+            incorrectAnswersList.innerHTML = '<h3>Incorrect answers:</h3>'; // Reset
+            
+            if (!hasIncorrect) {
+                incorrectAnswersList.innerHTML = '<h3>Congratulations! All answers are correct!</h3>';
+            } else {
+                incorrectAnswersList.innerHTML += incorrectHtml;
+            }
+        }
+
+    </script>
+</body>
+</html>
+
