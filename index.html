@@ -118,6 +118,26 @@
             border-bottom: none;
         }
 
+        /* --- Video Container --- */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background-color: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         /* --- Navigation & Button Styles --- */
         .main-nav {
             display: flex;
@@ -183,6 +203,37 @@
 
         .back-button:hover {
             background-color: #5a6268;
+        }
+
+        /* --- TTS Button --- */
+        .tts-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 16px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .tts-button:hover {
+            background-color: var(--color-primary-dark);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .tts-button svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
         }
 
         /* --- Quiz Styles --- */
@@ -347,9 +398,17 @@
         
         <main>
             <section class="content-section">
-                <h2>Welcome!</h2>
-                <p>This is your study guide for the 1st trimester physics test. I've broken down all the topics from our classes into simple, to-the-point sections. Focus on understanding the definitions and formulas!</p>
-                <p>Select a topic below to start reviewing. Each section has a short quiz at the end to help you check your progress. You've got this!</p>
+                <h2>Review Video</h2>
+                <p>Watch this video for a quick review of the main topics we covered in class.</p>
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.youtube.com/embed/tfx_12ZOMIc" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
             </section>
             
             <nav class="main-nav">
@@ -419,6 +478,10 @@
             </section>
             
             <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            <button class="tts-button" onclick="readPageContent(this)">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                Read Text
+            </button>
         </main>
     </div>
 
@@ -466,6 +529,10 @@
             </section>
             
             <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            <button class="tts-button" onclick="readPageContent(this)">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                Read Text
+            </button>
         </main>
     </div>
 
@@ -543,6 +610,10 @@
             </section>
             
             <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            <button class="tts-button" onclick="readPageContent(this)">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                Read Text
+            </button>
         </main>
     </div>
 
@@ -602,6 +673,10 @@
             </section>
             
             <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            <button class="tts-button" onclick="readPageContent(this)">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                Read Text
+            </button>
         </main>
     </div>
 
@@ -673,6 +748,10 @@
             </section>
             
             <button onclick="navigateToPage('page-main')" class="nav-button back-button">Back to Topics</button>
+            <button class="tts-button" onclick="readPageContent(this)">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg>
+                Read Text
+            </button>
         </main>
     </div>
 
@@ -746,6 +825,16 @@
         }
 
         function navigateToPage(pageId, quizId = null) {
+            // Stop TTS if it's playing
+            if (isSpeaking) {
+                synth.cancel();
+                isSpeaking = false;
+                // Reset any 'Stop' buttons back to 'Read Text'
+                document.querySelectorAll('.tts-button').forEach(btn => {
+                    btn.innerHTML = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg> Read Text';
+                });
+            }
+
             if (pageId === 'page-quiz') {
                 // If we're going to a quiz, load that quiz's data
                 loadQuiz(quizId);
@@ -1201,7 +1290,62 @@
             }
         }
 
-        // --- 4. CUSTOM ALERT MODAL ---
+        // --- 4. TEXT-TO-SPEECH LOGIC ---
+        let isSpeaking = false;
+        const synth = window.speechSynthesis;
+
+        function readPageContent(button) {
+            if (isSpeaking) {
+                synth.cancel(); // Stop speaking
+                return; // onend will handle button reset
+            }
+
+            const activePage = document.querySelector('.page.active');
+            if (!activePage) return;
+
+            // Find the main content area of the active page
+            const mainContent = activePage.querySelector('main');
+            if (!mainContent) return;
+
+            // Select all relevant text elements *except* quiz and buttons
+            const elementsToRead = mainContent.querySelectorAll('h2, h3, p, li, dt, dd');
+            
+            let textToSpeak = "";
+            elementsToRead.forEach(el => {
+                // Avoid reading the quiz link text
+                if (!el.closest('.quiz-link') && !el.closest('.nav-button')) {
+                    textToSpeak += el.textContent + ". ";
+                }
+            });
+
+            if (textToSpeak.trim() === "") return;
+
+            const utterance = new SpeechSynthesisUtterance(textToSpeak);
+            utterance.lang = 'en-US';
+            
+            const speakerIcon = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"></path></svg> Read Text';
+            const stopIcon = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h12v12H6z"></path></svg> Stop';
+
+            utterance.onstart = () => {
+                isSpeaking = true;
+                button.innerHTML = stopIcon;
+            };
+
+            const resetBtn = () => {
+                isSpeaking = false;
+                button.innerHTML = speakerIcon;
+            };
+
+            utterance.onend = resetBtn;
+            utterance.onerror = (event) => {
+                console.error('SpeechSynthesisUtterance.onerror', event);
+                resetBtn();
+            };
+            
+            synth.speak(utterance);
+        }
+
+        // --- 5. CUSTOM ALERT MODAL ---
         const modal = document.getElementById('simple-modal');
         const modalText = document.getElementById('simple-modal-text');
 
@@ -1224,4 +1368,5 @@
     </script>
 </body>
 </html>
+
 
